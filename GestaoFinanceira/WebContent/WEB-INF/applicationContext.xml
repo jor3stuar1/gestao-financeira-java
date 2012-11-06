@@ -31,9 +31,11 @@
 <!-- 	<b:bean id="DvdBean"  class="br.com.arce.controller.DvdBean"  /> -->
 	
 	
-	<http auto-config="true" use-expressions="true">
+    <http auto-config="true" access-denied-page="/login.xhtml" use-expressions="true"> 
 		<intercept-url pattern="/index.xhtml" access="hasRole('ROLE_USER')" />
-
+       <!-- "isAuthenticated()" que diz que todas as páginas que estão dentro desse pacote só serão acessadas se o usuário tiver autenticado...
+		    Caso alguem tente acessar mudando a url que é o teu caso, ele não vai conseguir e será redirecionada para a página de login conforme foi definido na tag access-denied-page="/login.xhtml"
+     	<intercept-url pattern="/comAutenticacao/**" access="isAuthenticated()" /> -->
 		<form-login login-page="/login.xhtml"
 			authentication-failure-url="/login.xhtml?error=true" />
 	</http>
