@@ -144,9 +144,9 @@
 						<f:facet name="header">
 							<h:outputText value="Remover" />
 						</f:facet>
-						<f:ajax event="click" render="@form"	listener="#{gastoBean.remove(g)}">
-							<h:commandLink value="Remover" />
-						</f:ajax>
+						<h:commandLink value="Remover" >
+							<p:ajax event="click" render="@form"	listener="#{gastoBean.remove(g)}" />
+						</h:commandLink>
 					</p:column>
 
 					<p:column
