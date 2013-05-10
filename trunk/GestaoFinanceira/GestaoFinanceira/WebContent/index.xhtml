@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:p="http://primefaces.org/ui"
+	template="/pages/template/template_padrao.xhtml">
+
+
+     
+ <ui:define name="conteudo">
+		<h:form id="frmGeral" prependId="false">
+				<t:saveState value="#{gastoBean.gasto}"/>
+			<p:fieldset legend="Controle de Gastos" id="fieldset">
+				<p:messages id="messages" />
+		
+					<h:panelGrid columns="2" id="pnGastos" styleClass="panelGridForm"
+						style="font-family: Verdana, Arial; font-weight: bold;">
+					
+						<h:outputLabel id="lbTipoGasto" value="*Tipo:" for="tipo"
+							style="float: left;" />
+						<p:inputText id="tipo" size="60" value="#{gastoBean.gasto.tipo}"
+							required="true" requiredMessage="Campo [Tipo] é obrigatório." />
+	
+						<h:outputLabel id="lbValor" value="*Valor:" for="valor"
+							style="float: left;" />
+						<p:inputText id="value"  value="#{gastoBean.gasto.valor}"
+							required="true" requiredMessage="Campo [Valor] é obrigatório."
+							validatorMessage="Campo [Valor] possui erros. Verifique." onkeypress="mascara(this, valor);" 
+							converter="MoedaConverter" >
+						
+<!-- 							  <f:converter converterId="MoedaConverter" /> -->
+							  
+						</p:inputText>
+						
+						<h:outputLabel id="lbForma" value="*Forma:" for="forma"
+							style="float: left;" />
+						<p:inputText id="forma" size="12" value="#{gastoBean.gasto.formaPagamento}"
+							required="true" requiredMessage="Campo [Forma] é obrigatório."
+							validatorMessage="Campo [Forma] possui erros. Verifique.">
+							
+						</p:inputText>
+	
+	<!-- 					<h:outputLabel value="*Data:" for="data" /> -->
+	<!-- 					<p:inputMask mask="99/99/9999" id="data"  -->
+	<!-- 						value="#{gastoBean.gasto.data}"  -->
+	<!-- 						label="Reportado em"  -->
+	<!-- 						required="true" >						 -->
+	<!-- 						<f:convertDateTime pattern="dd/MM/yyyy"/> -->
+	<!-- 					</p:inputMask> -->
+						
+	      
+	
+				    	<h:outputLabel value="*Data:" for="data" style="float: left;" />
+				    		<p:calendar value="#{gastoBean.gasto.data}" id="data" pattern="dd/MM/yyyy"  
+				    		onkeypress="return dateMask(this, event);" maxlength="10" converter="converteData"/>  
+				    		
+				    		
+					
+						
+						<h:outputLabel id="lbUser" value="*User: " for="User"
+							style="float: left;" rendered="#{facesContext.externalContext.isUserInRole('ROLE_ADMIN')}" />
+	 					<h:selectOneMenu id="User" value="#{gastoBean.generoID}" 
+	 						required="true" requiredMessage="Campo [User] é obrigatório." rendered="#{facesContext.externalContext.isUserInRole('ROLE_ADMIN')}"> 
+	 						<f:selectItem itemLabel="Escolha ..." itemValue="" /> 
+	 						<f:selectItems value="#{userBean.users}" var="u" 
+	 							itemLabel="#{u.username}" itemValue="#{u.username}" /> 
+	 					</h:selectOneMenu> 
+	 				
+	 					<center/>
+	 				<h:panelGrid columns="2"
+							style="font-size: 12px; font-weight: bold;margin-top: 30px;">
+							
+							<p:spacer>
+							<p:commandButton value="Adicionar Gasto" action="#{gastoBean.save()}"
+								update="frmGeral, messages, dtGastos" />
+
+							<p:commandButton value="Alterar Gasto" action="#{gastoBean.update()}"
+								update="frmGeral, messages, dtGastos" style="margin-left: 70px;"/>
+								
+							<p:commandButton value="Adicionar Capital" onclick="dlgCapital.show()" style="margin-left: 70px;"/>	
+							</p:spacer>
+					</h:panelGrid>
+					
+		</h:panelGrid>
+					
+				<!-- Dialog Capital -->	
+				<p:dialog id="dialogCapital" widgetVar="dlgCapital" header="Adicionar Capital" draggable="false" resizable="false" style="width:490px !important;heigth:145px !important;">
+<!-- 	 				<h:panelGrid columns="2" styleClass="panelDialog panelGridForm" -->
+<!-- 							style="font-size: 12px; font-weight: bold;"> -->
+	
+<!-- 					<h:outputLabel id="lbCapital" value="Capital:" for="capital" -->
+<!-- 							style="float: left;" /> -->
+							
+<!-- 						<p:inputText id="capital" size="12"  value="#{gastoBean.gasto.capital}" -->
+<!-- 							required="true" validatorMessage="Campo [Forma] possui erros. Verifique."> -->
+<!-- 							  <f:converter converterId="MoedaConverter" /> -->
+<!-- 					    </p:inputText> -->
+<!-- 					    <center/> -->
+<!-- 							<p:commandButton value="Adicionar" action="#{gastoBean.save()}" -->
+<!-- 								update="frmGeral, messages, dtGastos" style="margin-left:31%;"/> -->
+<!-- 					    </h:panelGrid> -->
+				</p:dialog>
+				<!-- fim -->					
+				
+				<p:spacer height="10" />
+
+				<p:dataTable id="dtGastos" emptyMessage="Nenhum registro encontrado."
+					value="#{gastoBean.gastos}" var="g"
+					style="text-align: center; font-weight: bold;">
+					<f:facet name="header">
+						<h:outputText value="Registro de Gastos" />
+					</f:facet>
+
+					<p:column id="tituloColumn" filterBy="#{g.data}"
+						headerText="Filtrar por data" filterMatchMode="contains">
+						<f:facet name="header">
+							<h:outputText value="Data" />
+						</f:facet>
+						<h:outputText value="#{g.dataFormatada}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Tipo" />
+						</f:facet>
+						<h:outputText value="#{g.tipo}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Valor" />
+						</f:facet>
+						<h:outputText value="#{g.valor}" />
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Forma" />
+						</f:facet>
+						<h:outputText value="#{g.formaPagamento}" />
+					</p:column>
+
+
+					<p:column
+						rendered="#{facesContext.externalContext.isUserInRole('ROLE_ADMIN')}">
+						<f:facet name="header">
+							<h:outputText value="Remover" />
+						</f:facet>
+						<h:commandLink value="Remover" >
+							<p:ajax event="click" update="@form" listener="#{gastoBean.remove(g)}" />
+						</h:commandLink>
+					</p:column>
+
+					<p:column
+						rendered="#{facesContext.externalContext.isUserInRole('ROLE_ADMIN')}">
+						<f:facet name="header">
+							<h:outputText value="Alterar" />
+						</f:facet>
+						<h:commandLink value="Alterar">
+							<p:ajax event="click" listener="#{gastoBean.preparaAlterar(g)}"
+								update="@form" />
+						</h:commandLink>
+					</p:column>
+
+					<f:facet name="footer">
+						<h:outputText
+							value="Há um total de #{gastoBean.count} Gasto(s) cadastrado(s) no sistema." />
+					</f:facet>
+				</p:dataTable>
+			</p:fieldset>
+		</h:form>
+
+
+</ui:define>
+</ui:composition>
