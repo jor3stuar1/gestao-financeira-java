@@ -5,14 +5,16 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:p="http://primefaces.org/ui">
 	
 	<!-- Um alias para facilitar nossa vida -->
 	<c:set var="ctx" value="#{request.contextPath}" scope="request"/>
 	
 	<h:head>
-       <title>Issue Tracker</title>
+       <title>Gestão Financeira</title>
        <h:outputStylesheet library="css" name="app.css" />
+       <h:outputScript name="formatacao.js" library="js"/>
     </h:head>
 	
 	<h:body>
