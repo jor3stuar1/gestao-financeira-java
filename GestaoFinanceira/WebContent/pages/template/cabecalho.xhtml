@@ -1,29 +1,31 @@
-<!DOCTYPE html>
-<ui:composition lang="en"
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ <ui:composition
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
+    	xmlns:t="http://myfaces.apache.org/tomahawk"
     xmlns:c="http://java.sun.com/jsp/jstl/core">
-    
-    <h:panelGroup rendered="#{usuarioWeb.logado}" layout="block">
+
+	 <h:panelGroup  layout="block">
 		<div id="userInfo">
 			<h:form id="logout_form"> 
 				<p>
-					#{usuarioWeb.usuario.login} -
-					<h:commandLink value="Sair" action="#{loginBean.sair}"/>
+				 <h:outputLink value="#{facesContext.externalContext.requestContextPath}/j_spring_security_logout">  
+            		  <h:outputText value="Sair" style="FONT-SIZE: small; FONT-FAMILY: 'DejaVu Serif'; FONT-WEIGHT: bold;"/>  
+            	 </h:outputLink>
 				</p>
 			</h:form>
 		</div>
 		<div id="menuWrap">
 			<ul id="menuElementsEn">
-				<li><a href="${ctx}/home.xhtml">Home</a></li>
-				<li><a href="${ctx}/pages/dashboard/dashboard.xhtml">Dashboard</a></li>
-				<li><a href="${ctx}/pages/projeto/projeto.xhtml">Projetos</a></li>
-				<li><a href="${ctx}/pages/usuario/usuario.xhtml">Usuarios</a></li>
-				<li><a href="${ctx}/pages/issue/issue.xhtml">Issues</a></li>
+				<li><a href="#">Home</a></li>
+				<li><a href="#">Cadastros</a></li>
+				<li><a href="#">Projetos</a></li>
+				<li><a href="#">Usuarios</a></li>
 			</ul><!-- menuElements-->
 		</div><!-- menuWrap-->
 	</h:panelGroup>
     
-</ui:composition>
+ </ui:composition>
