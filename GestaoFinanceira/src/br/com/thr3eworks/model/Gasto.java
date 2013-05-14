@@ -29,6 +29,10 @@ public class Gasto implements Serializable{
 	/**
 	 * 
 	 */
+	public Gasto() {
+		this.capital = BigDecimal.ZERO;
+	}
+	
 	private static final long serialVersionUID = -6710029683606442188L;
 
 	@Id
@@ -52,6 +56,8 @@ public class Gasto implements Serializable{
 	@Column(name = "dataGastos", length = 60, nullable = false)
 	private Date data;
 
+	@Column(name="capital", length = 12)
+	private BigDecimal capital;
 	
 	@ManyToOne
 	private User users;
@@ -118,6 +124,14 @@ public class Gasto implements Serializable{
 		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 		return formato.format(data);
 		} 
+	
+	public BigDecimal getCapital() {
+		return capital;
+	}
+
+	public void setCapital(BigDecimal capital) {
+		this.capital = capital;
+	}
 
 	@Override
 	public int hashCode() {

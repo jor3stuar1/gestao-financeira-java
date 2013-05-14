@@ -6,7 +6,6 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:t="http://myfaces.apache.org/tomahawk"
 	xmlns:p="http://primefaces.org/ui"
 	template="/pages/template/template_padrao.xhtml">
 
@@ -14,7 +13,6 @@
      
  <ui:define name="conteudo">
 		<h:form id="frmGeral" prependId="false">
-				<t:saveState value="#{gastoBean.gasto}"/>
 			<p:fieldset legend="Controle de Gastos" id="fieldset">
 				<p:messages id="messages" />
 		
@@ -31,11 +29,7 @@
 						<p:inputText id="value"  value="#{gastoBean.gasto.valor}"
 							required="true" requiredMessage="Campo [Valor] é obrigatório."
 							validatorMessage="Campo [Valor] possui erros. Verifique." onkeypress="mascara(this, valor);" 
-							converter="MoedaConverter" >
-						
-<!-- 							  <f:converter converterId="MoedaConverter" /> -->
-							  
-						</p:inputText>
+							converter="MoedaConverter" />
 						
 						<h:outputLabel id="lbForma" value="*Forma:" for="forma"
 							style="float: left;" />
@@ -73,7 +67,7 @@
 	 				
 	 					<center/>
 	 				<h:panelGrid columns="2"
-							style="font-size: 12px; font-weight: bold;margin-top: 30px;">
+							style="font-size: 12px; font-weight: bold;">
 							
 							<p:spacer>
 							<p:commandButton value="Adicionar Gasto" action="#{gastoBean.save()}"
@@ -82,28 +76,37 @@
 							<p:commandButton value="Alterar Gasto" action="#{gastoBean.update()}"
 								update="frmGeral, messages, dtGastos" style="margin-left: 70px;"/>
 								
-							<p:commandButton value="Adicionar Capital" onclick="dlgCapital.show()" style="margin-left: 70px;"/>	
+							<p:commandButton value="Adicionar Capital" onclick="dlgCapital.show()" process="@this" style="margin-left: 70px;"/>	
 							</p:spacer>
 					</h:panelGrid>
+					
+		</h:panelGrid>
+		
+		
+		<h:panelGrid columns="2" id="pnlValorDebito" styleClass="pnlDeb">
+				<f:facet name="header" >Capital Disponível</f:facet>	
+				<h:outputText value="#{gastoBean.gasto.capital}" />
 					
 		</h:panelGrid>
 					
 				<!-- Dialog Capital -->	
 				<p:dialog id="dialogCapital" widgetVar="dlgCapital" header="Adicionar Capital" draggable="false" resizable="false" style="width:490px !important;heigth:145px !important;">
-<!-- 	 				<h:panelGrid columns="2" styleClass="panelDialog panelGridForm" -->
-<!-- 							style="font-size: 12px; font-weight: bold;"> -->
+	 				<h:panelGrid columns="2" styleClass="panelDialog panelGridForm"
+							style="font-size: 12px; font-weight: bold;">
 	
-<!-- 					<h:outputLabel id="lbCapital" value="Capital:" for="capital" -->
-<!-- 							style="float: left;" /> -->
+					<h:outputLabel id="lbCapital" value="Capital:" for="capital"
+							style="float: left;" />
 							
-<!-- 						<p:inputText id="capital" size="12"  value="#{gastoBean.gasto.capital}" -->
-<!-- 							required="true" validatorMessage="Campo [Forma] possui erros. Verifique."> -->
-<!-- 							  <f:converter converterId="MoedaConverter" /> -->
-<!-- 					    </p:inputText> -->
-<!-- 					    <center/> -->
-<!-- 							<p:commandButton value="Adicionar" action="#{gastoBean.save()}" -->
-<!-- 								update="frmGeral, messages, dtGastos" style="margin-left:31%;"/> -->
-<!-- 					    </h:panelGrid> -->
+						<p:inputText id="capital" size="12"  value="#{gastoBean.capital}"
+							validatorMessage="Campo [Forma] possui erros. Verifique.">
+							  <f:converter converterId="MoedaConverter" />
+					    </p:inputText>
+					    <center/>
+							<p:commandButton value="Adicionar" actionListener="#{gastoBean.addCapital}" process="@this capital User"
+								 update="pnlValorDebito"
+								 style="margin-left:31%;"/>
+
+					    </h:panelGrid>
 				</p:dialog>
 				<!-- fim -->					
 				
@@ -152,6 +155,7 @@
 							<h:outputText value="Remover" />
 						</f:facet>
 						<h:commandLink value="Remover" >
+							<f:setPropertyActionListener target="#{gastoBean.gasto}" value="g" />
 							<p:ajax event="click" update="@form" listener="#{gastoBean.remove(g)}" />
 						</h:commandLink>
 					</p:column>
@@ -162,6 +166,7 @@
 							<h:outputText value="Alterar" />
 						</f:facet>
 						<h:commandLink value="Alterar">
+							<f:setPropertyActionListener target="#{gastoBean.gasto}" value="g" />
 							<p:ajax event="click" listener="#{gastoBean.preparaAlterar(g)}"
 								update="@form" />
 						</h:commandLink>

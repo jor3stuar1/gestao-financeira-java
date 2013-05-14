@@ -20,10 +20,33 @@ a {
 	margin-right: 20px;
 }
 
-input, label, select, textarea {
+.panelGridForm tbody tr td{
+	padding: 5px; 
+}
+
+.pnlDeb {
+	width: 200px !important;
+}
+
+.pnGastos{
+	width: 500px !important;
+}
+
+.panelDialog {
+	width: 200px;
+	
+}
+
+.panelGridForm{
+	
+	max-width: 500px ;
+	float: left;
+}
+
+input, select, textarea {
 	display: block;
 	text-align: left;
-	width: 300px;
+	width: 300px !important;
 	color: #444;
 }
 
@@ -44,6 +67,9 @@ input, select, textarea {
     /*height: 32px;
     font-size: 28px;*/
     font-size: 16px;
+    
+    /* E preciso o important pois o Primefaces tem como padrão margem 0*/
+    /*margin-top: 5px !important;*/
 }
 
 input[disabled] {
@@ -142,8 +168,9 @@ input[type="button"] {
 	display: inline;
 }
 
-fieldset {
-	width: 320px;
+#fieldset {
+	width: 1000px;
+	text-align : left;
 	margin: 15px auto 0;
 	border:1px solid #a29bc0;
 	padding: 10px;
@@ -268,7 +295,13 @@ table tfoot td {
 }
 
 table tbody td a:hover {
-	background: yellow;
+			color: #2a2948;
+			background-color: #a29bc0;
+			-moz-border-radius: 5px;
+			-webkit-border-radius: 5px;
+			-khtml-border-radius: 5px;
+			-opera-border-radius: 5px;
+			border-radius: 5px;
 }
 
 table tbody td {
