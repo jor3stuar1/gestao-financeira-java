@@ -1,5 +1,6 @@
 package br.com.thr3eworks.controller;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class GastoBean {
 	private Gasto gasto = new Gasto();
 	private List<Gasto> gastos =new ArrayList<Gasto>();
 	private String generoID;
+	private BigDecimal capital;
 	
 	public GastoBean() {
 	
@@ -109,6 +111,26 @@ public class GastoBean {
 		 this.generoID = this.getGasto().getUsers().getUsername();
 	     
 		//return "index?faces-redirect=true";
+	}
+
+	public void addCapital(){
+		System.out.println("NOME:"+generoID);
+		this.user = userDAO.search(generoID);
+		this.gasto.setUsers(this.user);
+		System.out.println(this.gasto.getFormaPagamento());
+		System.out.println(capital);
+		this.gasto.setCapital(this.gasto.getCapital().add(capital));
+		System.out.println(this.gasto.getCapital());
+	
+	}
+	
+	
+	public BigDecimal getCapital() {
+		return capital;
+	}
+
+	public void setCapital(BigDecimal capital) {
+		this.capital = capital;
 	}
 
 	public User getUser() {

@@ -14,6 +14,7 @@ public class NumberUtils {
 
     public static BigDecimal parseBigDecimal(String s) throws ParseException {
         final BigDecimal bigDecimal = (BigDecimal) NumberUtils.format.parse(s);
+        System.out.println("BigDecimal:"+bigDecimal);
         return bigDecimal;
     }
 }

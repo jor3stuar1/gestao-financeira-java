@@ -23,8 +23,8 @@ public class GastoDaoImpl implements GastoDAO {
 	@Override
 	public void save(Gasto gasto) {
 		
-		getEntityManager().persist(gasto);
-		getEntityManager().flush();
+		entityManager.merge(gasto);
+		entityManager.flush();
 	}
 
 	public EntityManager getEntityManager() {
